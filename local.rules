@@ -1,0 +1,29 @@
+# === ALERT RULES ===
+alert tcp any any -> any 21 (msg:"ALERT: FTP Login Attempt"; content:"USER"; nocase; sid:10001; rev:1;)
+alert tcp any any -> any 80 (msg:"ALERT: HTTP Access to /admin"; content:"/admin"; http_uri; sid:10002; rev:1;)
+alert icmp any any -> any any (msg:"ALERT: ICMP Ping Sweep"; itype:8; dsize:0; sid:10003; rev:1;)
+
+# === LOG RULES ===
+log tcp any any -> any 23 (msg:"LOG: Telnet Connection Logged"; sid:10004; rev:1;)
+log udp any any -> any 53 (msg:"LOG: DNS Request Logged"; sid:10005; rev:1;)
+log tcp any any -> any 443 (msg:"LOG: HTTPS Traffic Captured"; sid:10006; rev:1;)
+
+# === DROP RULES ===
+drop tcp any any -> any 22 (msg:"DROP: SSH Access Blocked"; sid:10007; rev:1;)
+drop tcp any any -> any 23 (msg:"DROP: Telnet Traffic Blocked"; sid:10008; rev:1;)
+drop tcp any any -> any 445 (msg:"DROP: SMB Traffic Blocked"; sid:10009; rev:1;)
+
+# === REJECT RULES ===
+reject tcp any any -> any 25 (msg:"REJECT: SMTP Email Blocked"; sid:10010; rev:1;)
+reject udp any any -> any 69 (msg:"REJECT: TFTP Access Blocked"; sid:10011; rev:1;)
+reject icmp any any -> any any (msg:"REJECT: ICMP Requests Blocked"; sid:10012; rev:1;)
+
+# === PASS RULES ===
+pass tcp 192.168.1.100 any -> any any (msg:"PASS: Whitelisted Internal IP"; sid:10013; rev:1;)
+pass udp any any -> 8.8.8.8 53 (msg:"PASS: Google DNS Whitelisted"; sid:10014; rev:1;)
+pass icmp any any -> 192.168.1.1 any (msg:"PASS: ICMP to Gateway Whitelisted"; sid:10015; rev:1;)
+
+# === SDROP RULES ===
+sdrop tcp any any -> any 135 (msg:"SDROP: Block DCOM Traffic"; sid:10016; rev:1;)
+sdrop udp any any -> any 161 (msg:"SDROP: Block SNMP"; sid:10017; rev:1;)
+sdrop tcp any any -> any 3389 (msg:"SDROP: Block RDP"; sid:10018; rev:1;)
