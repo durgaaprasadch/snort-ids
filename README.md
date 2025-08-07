@@ -40,5 +40,6 @@ The project includes **18 custom Snort rules**, categorized into **6 rule action
 
 ---
 
-## 🗂️ Project Structure
+
+
 
